@@ -17,7 +17,7 @@ window.onload = function () {
 
     for (var i = 0; i < follow.processUsers.length; i++) {
       // Random delay added to prevent bot detection
-      var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay / 2) + 1;
+      var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay * 0.75) + 1;
       
       if (follow.processUsers[i] != '') {
         follow.updateStatusDiv(`Mass unfollowing users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
@@ -59,7 +59,7 @@ window.onload = function () {
 
     for (var i = 0; i < follow.processUsers.length; i++) {
       // Random delay added to prevent bot detection
-      var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay / 2) + 1;
+      var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay * 0.75) + 1;
       
       if (follow.processUsers[i] != '') {
         follow.updateStatusDiv(`Mass following users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
