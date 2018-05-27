@@ -16,7 +16,7 @@ followUser.follow = function (settings) {
 
   function successFollow(data, resolve) {
     var time = new Date();
-    updateStatusDiv(`The request to follow ${username} was successful with response - ${data.result}. Started: ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
+    updateStatusDiv(`The request to follow ${username} was successful with response - ${data.result}`);
     resolve(data.result);
   }
 
@@ -88,7 +88,7 @@ followUser.unFollow = function (settings) {
 
   function successUnFollow(data, resolve) {
     var time = new Date();
-    updateStatusDiv(`The request to unfollow ${username} was successful with response - ${data.status}. Started: ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`);
+    updateStatusDiv(`The request to unfollow ${username} was successful with response - ${data.status}`);
     resolve(data.status);
   }
 

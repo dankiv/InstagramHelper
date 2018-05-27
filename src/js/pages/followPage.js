@@ -16,8 +16,11 @@ window.onload = function () {
     follow.unFollowedUsers = 0;
 
     for (var i = 0; i < follow.processUsers.length; i++) {
+      // Random delay added to prevent bot detection
+      var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay / 2) + 1;
+      
       if (follow.processUsers[i] != '') {
-        follow.updateStatusDiv(`Mass unfollowing users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}`);
+        follow.updateStatusDiv(`Mass unfollowing users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
 
         var result = await followUser.unFollow(
           {
@@ -33,7 +36,7 @@ window.onload = function () {
         } else {
           console.log('Not recognized result - ' + result); // eslint-disable-line no-console
         }
-
+        
         await timeout(follow.delay);
       }
     }
@@ -55,8 +58,11 @@ window.onload = function () {
     follow.requestedUsers = 0;
 
     for (var i = 0; i < follow.processUsers.length; i++) {
+      // Random delay added to prevent bot detection
+      var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay / 2) + 1;
+      
       if (follow.processUsers[i] != '') {
-        follow.updateStatusDiv(`Mass following users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}`);
+        follow.updateStatusDiv(`Mass following users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
 
         var result = await followUser.follow(
           {
@@ -75,7 +81,7 @@ window.onload = function () {
           console.log('Not recognized result - ' + result); // eslint-disable-line no-console
         }
 
-        await timeout(follow.delay);
+        await timeout(delayInterval);
       }
     }
 
