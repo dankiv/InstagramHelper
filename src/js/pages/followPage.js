@@ -86,7 +86,7 @@ window.onload = function () {
         Followed: ${follow.followedUsers}
         Requested: ${follow.requestedUsers}`);
   };
-
+	
   chrome.runtime.onMessage.addListener(function (request) {
     // console.log(request);
     if (request.action === 'openMassFollowPage') {
@@ -100,7 +100,7 @@ window.onload = function () {
       follow.pageSize = request.pageSizeForFeed; //is not binded
     }
   });
-
+  
   _gaq.push(['_trackPageview']);
 
 };
