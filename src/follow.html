@@ -23,10 +23,18 @@
             </div>
           </v-flex>
           <v-flex>
-            <v-text-field label="Delay between requests, ms" type="number" min=1000 step=500 v-model.number="delay"></v-text-field>
+            <v-text-field label="Delay between requests, ms (It will add maximum if 75% random delay to prevent instagram bot detection" type="number" min=1000 step=500 v-model.number="delay"></v-text-field>
             <v-btn id="startUnFollow" :disabled="startButtonDisabled" color="primary">Start UnFollow!</v-btn>
             <v-btn id="startFollow" :disabled="startButtonDisabled" color="primary">Start Follow!</v-btn>
           </v-flex>
+          <v-flex>
+	        <v-text-field id="bucketsize" label="Split users list into smaller chunks" v-model="bucketsize"
+	        placeholder="Specify amount of users, and after that amount followed/unfollowed, bot will stop adding for X minutes"></v-text-field>
+          </v-flex>
+	      <v-flex>
+	        <v-text-field id="bucketdelay" label="Timeout between users chunks(ms)" v-model="bucketdelay"
+              placeholder="Timeout between users bucket list"></v-text-field>
+	      </v-flex>
           <v-flex>
             <v-text-field id="ids" label="Input of User Ids" multi-line v-model="ids" :readonly="startButtonDisabled"
               placeholder="Specify the id of users you want to follow/unfollow. Put each id on separate line. Please pay attention that it should be id (numeric value), not username."></v-text-field>

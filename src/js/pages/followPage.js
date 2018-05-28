@@ -11,16 +11,32 @@ window.onload = function () {
   document.getElementById('startUnFollow').onclick = async function () {
     follow.isInProgress = true;
 
-    var value = document.getElementById('ids').value;
+    var value = document.getElementById('ids').value,
+        bucketSize = document.getElementById('bucketsize').value,
+        bucketDelay = parseInt(document.getElementById('bucketdelay').value);
+    
     follow.processUsers = value.replace(/[\n\r]/g, ',').split(',');
     follow.unFollowedUsers = 0;
 
     for (var i = 0; i < follow.processUsers.length; i++) {
       // Random delay added to prevent bot detection
       var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay * 0.75) + 1;
+    
+      // Detect bucket limit for additional timeout
+      var userNumber = i + 1,
+          bucketLimitReached = false;
+  
+      if (userNumber % bucketSize === 0) {
+          bucketLimitReached = true;
+          delayInterval = delayInterval + bucketDelay;
+      }
       
       if (follow.processUsers[i] != '') {
-        follow.updateStatusDiv(`Mass unfollowing users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
+        if (bucketLimitReached) {
+          follow.updateStatusDiv(`*** Bucket limit reached. Timeout - ${Math.floor(delayInterval / 1000)}sec ***`);
+        } else {
+          follow.updateStatusDiv(`Mass unfollowing users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
+        }
 
         var result = await followUser.unFollow(
           {
@@ -37,7 +53,7 @@ window.onload = function () {
           console.log('Not recognized result - ' + result); // eslint-disable-line no-console
         }
         
-        await timeout(follow.delay);
+        await timeout(delayInterval);
       }
     }
 
@@ -52,7 +68,10 @@ window.onload = function () {
 
     follow.isInProgress = true;
 
-    var value = document.getElementById('ids').value;
+    var value = document.getElementById('ids').value,
+        bucketSize = document.getElementById('bucketsize').value,
+        bucketDelay = parseInt(document.getElementById('bucketdelay').value);
+    
     follow.processUsers = value.replace(/[\n\r]/g, ',').split(',');
     follow.followedUsers = 0;
     follow.requestedUsers = 0;
@@ -61,8 +80,22 @@ window.onload = function () {
       // Random delay added to prevent bot detection
       var delayInterval = follow.delay + Math.floor(Math.random() * follow.delay * 0.75) + 1;
       
+      // Detect bucket limit for additional timeout
+      var userNumber = i + 1,
+          bucketLimitReached = false;
+    
+      if (userNumber % bucketSize === 0) {
+          bucketLimitReached = true;
+          delayInterval = delayInterval + bucketDelay;
+      }
+      
       if (follow.processUsers[i] != '') {
-        follow.updateStatusDiv(`Mass following users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
+        
+        if (bucketLimitReached) {
+            follow.updateStatusDiv(`*** Bucket limit reached. Timeout - ${Math.floor(delayInterval / 1000)}sec ***`);
+        } else {
+            follow.updateStatusDiv(`Mass following users: ${follow.processUsers[i]}/${i + 1} of ${follow.processUsers.length}. Delay - ${Math.floor(delayInterval / 1000)}sec`);
+        }
 
         var result = await followUser.follow(
           {

@@ -19,7 +19,9 @@ var follow = new Vue({ // eslint-disable-line no-unused-vars
     statusColor: '',
 
     log: '', //the text displayed in log area
-    ids: ''
+    ids: '',
+    bucketsize: '',
+    bucketdelay: ''
 
   },
   computed: {
