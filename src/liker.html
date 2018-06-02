@@ -35,7 +35,7 @@
             <v-radio-group label="I want to like..." v-model="whatToLike" :disabled="isInProgress" v-bind:class="{ disabled: isInProgress }">
               <v-radio :key="1" label="The posts in my feed" value="likeFeed"></v-radio>
               <v-radio :key="2" label="The posts of " value="likeProfile"></v-radio>
-              <v-text-field label="username" type="string" v-validate="whatToLike == 'likeProfile' ? 'required' : ''" v-model="userToLike"
+              <v-text-field label="usernames list (not ids)" type="string"  multi-line v-validate="whatToLike == 'likeProfile' ? 'required' : ''" id="userToLike" v-model="userToLike"
                 v-if="whatToLike == 'likeProfile'" v-on:blur="validateUserProfile($event)"></v-text-field>
             </v-radio-group>
           </v-flex>
@@ -58,7 +58,7 @@
             <!--
             <v-text-field rows="5" label="Do not like the posts of the following users (specify IDs, each on the separate line)" multi-line v-model="ids"></v-text-field>
             -->
-            <v-text-field label="Delay between requests, ms" type="number" min=100 step=100 v-model.number="delay"></v-text-field>
+            <v-text-field label="Delay between requests, ms (+30%)" type="number" min=100 step=100 v-model.number="delay"></v-text-field>
             <v-btn id="start" :disabled="startButtonDisabled" color="primary" v-on:click="startButtonClick">Like the posts!</v-btn>
             <v-btn :disabled="!isInProgress" color="primary" v-on:click="stop=true">Stop it!</v-btn>
             <v-text-field id="log_text_area" rows="10" label="Log" multi-line v-model="log"></v-text-field>
