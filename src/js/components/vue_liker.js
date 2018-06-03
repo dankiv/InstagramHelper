@@ -57,7 +57,9 @@ var liker = new Vue({ // eslint-disable-line no-unused-vars
     skipOwnPosts: true, // do not like your own posts
     minLike: 0, // like a post when already amount of likes >=
 
-    ids: '' // ???
+    ids: '', // ???
+    bucketsize: 100,
+    bucketdelay: 1800000
   },
   computed: {
     isCompleted: function () {
@@ -136,7 +138,6 @@ var liker = new Vue({ // eslint-disable-line no-unused-vars
     },
     scheduleNextRun: function(instaPosts, media, index, delay) {
       var delayInterval = delay + Math.floor(Math.random() * delay * 0.3) + 1;
-      console.log(delayInterval);
 
       if (this.isCompleted) {
         this.updateStatusDiv(`Started at ${this.startDate}`);
@@ -198,7 +199,9 @@ var liker = new Vue({ // eslint-disable-line no-unused-vars
     },
     startButtonClick: async function () {
       var usersValues = document.getElementById('userToLike').value,
-          usersList = usersValues.replace(/[\n\r]/g, ',').split(',');
+          usersList = usersValues.replace(/[\n\r]/g, ',').split(','),
+          bucketSize = document.getElementById('bucketsize').value,
+          bucketDelay = parseInt(document.getElementById('bucketdelay').value);
 
       var message = {
         'alreadyLiked': 'It will be stopped when already liked post is met',
@@ -208,6 +211,18 @@ var liker = new Vue({ // eslint-disable-line no-unused-vars
       for (var i = 0; i < usersList.length; i ++) {
         var likerTiming = this.amountToLike * liker.delay,
             usersTimeout = likerTiming + Math.floor(Math.random() * likerTiming * 0.60) + 1;
+
+        var userNumber = i + 1,
+            bucketLimitReached = false;
+
+        console.log(userNumber);
+        console.log(bucketSize);
+        console.log(bucketDelay);
+
+        if (userNumber % bucketSize === 0) {
+          bucketLimitReached = true;
+          usersTimeout = usersTimeout + bucketDelay;
+        }
 
         var instaPosts =
           new GetPosts({
@@ -239,6 +254,11 @@ var liker = new Vue({ // eslint-disable-line no-unused-vars
           liker.isInProgress = true;
 
           liker.updateStatusDiv(message[liker.stopCriterion]);
+
+          if (bucketLimitReached) {
+            liker.updateStatusDiv(`*** Bucket limit reached. Timeout - ${Math.floor(usersTimeout / 1000)}sec ***`);
+          }
+          liker.updateStatusDiv(`Users processed - ${userNumber - 1} / ${usersList.length}`)
           liker.updateStatusDiv('You can change the stop criteria during running the process');
 
           liker.getPosts(instaPosts, true);

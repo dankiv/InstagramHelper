@@ -59,6 +59,10 @@
             <v-text-field rows="5" label="Do not like the posts of the following users (specify IDs, each on the separate line)" multi-line v-model="ids"></v-text-field>
             -->
             <v-text-field label="Delay between requests, ms (+30%)" type="number" min=100 step=100 v-model.number="delay"></v-text-field>
+            <v-text-field id="bucketsize" label="Split users list into smaller chunks" v-model="bucketsize"
+                          placeholder="Specify amount of users, and after that amount followed/unfollowed, bot will stop adding for X minutes"></v-text-field>
+            <v-text-field id="bucketdelay" label="Timeout between users chunks(ms)" v-model="bucketdelay"
+                          placeholder="Timeout between users bucket list"></v-text-field>
             <v-btn id="start" :disabled="startButtonDisabled" color="primary" v-on:click="startButtonClick">Like the posts!</v-btn>
             <v-btn :disabled="!isInProgress" color="primary" v-on:click="stop=true">Stop it!</v-btn>
             <v-text-field id="log_text_area" rows="10" label="Log" multi-line v-model="log"></v-text-field>
